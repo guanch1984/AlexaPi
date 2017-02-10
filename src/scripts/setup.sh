@@ -42,35 +42,38 @@ fi
 
 cd ${SCRIPT_DIRECTORY}
 
-OS_default="debian"
-DEVICE_default="raspberrypi"
+# OS_default="debian"
+# DEVICE_default="raspberrypi"
 
-echo "Which operating system are you using?"
-echo "debian        - Debian, Raspbian, Armbian, Ubuntu or other Debian-based"
-echo "archlinux     - Arch Linux or Arch Linux-based"
-read -p "Your OS [${OS_default}]: " OS
+OS="debian"
+DEVICE="orangepi"
 
-if [ "${OS}" == "" ]; then
-    OS=${OS_default}
-elif [ ! -f "./inc/${OS}.sh" ]; then
-    echo "Incorrect value. Exiting."
-    exit
-fi
+# echo "Which operating system are you using?"
+# echo "debian        - Debian, Raspbian, Armbian, Ubuntu or other Debian-based"
+# echo "archlinux     - Arch Linux or Arch Linux-based"
+# read -p "Your OS [${OS_default}]: " OS
 
-echo "Which device are you using?"
-echo "raspberrypi   - all Raspberry Pi variants"
-echo "orangepi      - Orange Pi or another H3 based board"
-echo "chip          - C.H.I.P."
-echo "magicmirror   - Integrating with Magic Mirror project (MMM-AlexaPi)"
-echo "other         - other SBCs, desktops, or anything else"
-read -p "Your device [${DEVICE_default}]: " DEVICE
+# if [ "${OS}" == "" ]; then
+#     OS=${OS_default}
+# elif [ ! -f "./inc/${OS}.sh" ]; then
+#     echo "Incorrect value. Exiting."
+#     exit
+# fi
 
-if [ "${DEVICE}" == "" ]; then
-    DEVICE=${DEVICE_default}
-elif [ "${DEVICE}" != "other" ] && [ ! -f "./inc/${DEVICE}.sh" ]; then
-    echo "Incorrect value. Exiting."
-    exit
-fi
+# echo "Which device are you using?"
+# echo "raspberrypi   - all Raspberry Pi variants"
+# echo "orangepi      - Orange Pi or another H3 based board"
+# echo "chip          - C.H.I.P."
+# echo "magicmirror   - Integrating with Magic Mirror project (MMM-AlexaPi)"
+# echo "other         - other SBCs, desktops, or anything else"
+# read -p "Your device [${DEVICE_default}]: " DEVICE
+
+# if [ "${DEVICE}" == "" ]; then
+#     DEVICE=${DEVICE_default}
+# elif [ "${DEVICE}" != "other" ] && [ ! -f "./inc/${DEVICE}.sh" ]; then
+#     echo "Incorrect value. Exiting."
+#     exit
+# fi
 
 source ./inc/common.sh
 
@@ -82,12 +85,15 @@ fi
 
 if [ "$ALEXASRC_DIRECTORY" == "$ALEXASRC_DIRECTORY_CORRECT" ]; then
 
-    echo "Do you want AlexaPi to run on boot?"
-	echo "You have these options: "
-	echo "0 - NO"
-	echo "1 - yes, use systemd (default, RECOMMENDED and awesome)"
-	echo "2 - yes, use a classic init script (for a very old PC or an embedded system)"
-	read -p "Which option do you prefer? [1]: " init_type
+ #    echo "Do you want AlexaPi to run on boot?"
+	# echo "You have these options: "
+	# echo "0 - NO"
+	# echo "1 - yes, use systemd (default, RECOMMENDED and awesome)"
+	# echo "2 - yes, use a classic init script (for a very old PC or an embedded system)"
+	# read -p "Which option do you prefer? [1]: " init_type
+
+    init_type="1"
+    monitorAlexa="y"
 
     if [ "${init_type// /}" != "0" ]; then
 
@@ -95,7 +101,7 @@ if [ "$ALEXASRC_DIRECTORY" == "$ALEXASRC_DIRECTORY_CORRECT" ]; then
             init_type="1"
         fi
 
-        read -p "Would you like to have AlexaPi restart when it crashes? (y/N)? " monitorAlexa
+        # read -p "Would you like to have AlexaPi restart when it crashes? (y/N)? " monitorAlexa
         if [ "$monitorAlexa" == "y" ] || [ "$monitorAlexa" == "Y" ]; then
             monitorAlexa=true
         else
@@ -121,7 +127,8 @@ if [ "$ALEXASRC_DIRECTORY" == "$ALEXASRC_DIRECTORY_CORRECT" ]; then
 
 fi
 
-read -p "Would you like to also install Airplay support (Y/n)? " shairport
+# read -p "Would you like to also install Airplay support (Y/n)? " shairport
+shairport="y"
 
 install_os
 
@@ -199,19 +206,24 @@ config_defaults[Security_Profile_ID]=$(config_get Security_Profile_ID)
 config_defaults[Client_ID]=$(config_get Client_ID)
 config_defaults[Client_Secret]=$(config_get Client_Secret)
 
-read -p "Enter your Device Type ID [${config_defaults[Device_Type_ID]}]: " Device_Type_ID
+# read -p "Enter your Device Type ID [${config_defaults[Device_Type_ID]}]: " Device_Type_ID
+Device_Type_ID="TM_TS80"
 config_set 'Device_Type_ID' ${Device_Type_ID}
 
-read -p "Enter your Security Profile Description [${config_defaults[Security_Profile_Description]}]: " Security_Profile_Description
+# read -p "Enter your Security Profile Description [${config_defaults[Security_Profile_Description]}]: " Security_Profile_Description
+Security_Profile_Description="TimoLabs AI sound system with voice recognition built-in."
 config_set 'Security_Profile_Description' ${Security_Profile_Description}
 
-read -p "Enter your Security Profile ID [${config_defaults[Security_Profile_ID]}]: " Security_Profile_ID
+# read -p "Enter your Security Profile ID [${config_defaults[Security_Profile_ID]}]: " Security_Profile_ID
+Security_Profile_ID="amzn1.application.78489ed23dff4063a23542cbba5e5eda"
 config_set 'Security_Profile_ID' ${Security_Profile_ID}
 
-read -p "Enter your Client ID [${config_defaults[Client_ID]}]: " Client_ID
+# read -p "Enter your Client ID [${config_defaults[Client_ID]}]: " Client_ID
+Client_ID="amzn1.application-oa2-client.fe59a8a1da4a4844a37a2ded4bc43e0a"
 config_set 'Client_ID' ${Client_ID}
 
-read -p "Enter your Client Secret [${config_defaults[Client_Secret]}]: " Client_Secret
+# read -p "Enter your Client Secret [${config_defaults[Client_Secret]}]: " Client_Secret
+Client_Secret="786c612ab74a2046694f286eaea04a701d635b92cf1d2f14972b129ea0dd4906"
 config_set 'Client_Secret' ${Client_Secret}
 
 
